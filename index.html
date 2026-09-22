@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vidit Bhatnagar — Cloud & DevOps Learner</title>
+  <meta name="description" content="Vidit Bhatnagar – Final-year BCA student building hands-on skills in Linux, Cloud Engineering and DevOps. Open to internships and entry-level roles." />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg:        #050d1a;
+      --bg2:       #0a1628;
+      --bg3:       #0f1f38;
+      --slate:     #16233b;
+      --blue:      #2563eb;
+      --blue-lt:   #3b82f6;
+      --cyan:      #06b6d4;
+      --green:     #22c55e;
+      --amber:     #eab308;
+      --text:      #e2e8f0;
+      --muted:     #7a90b0;
+      --border:    rgba(59,130,246,0.18);
+      --card:      rgba(10,22,40,0.85);
+      --radius:    14px;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: var(--blue-lt); text-decoration: none; }
+    a:hover { color: #fff; }
+    img { max-width: 100%; display: block; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      background: rgba(5,13,26,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-head); font-weight: 800; font-size: 1.15rem; color: #fff; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--blue-lt); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--muted); transition: color 0.2s; letter-spacing: 0.3px; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+    .nav-links a.active { border-bottom: 2px solid var(--blue-lt); padding-bottom: 2px; }
+    .nav-cta { background: var(--blue); color: #fff !important; padding: 8px 20px; border-radius: 8px; font-size: 0.85rem !important; font-weight: 600 !important; transition: background 0.2s, transform 0.2s !important; border-bottom: none !important; }
+    .nav-cta:hover { background: var(--blue-lt); transform: translateY(-1px); color: #fff !important; }
+
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 200; }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    main { position: relative; z-index: 1; }
+    section { padding: 100px 5%; max-width: 1100px; margin: 0 auto; }
+
+    .section-label { display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--blue-lt); margin-bottom: 16px; font-family: var(--font-mono); }
+    .section-label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--blue-lt); border-radius: 2px; }
+    .section-title { font-family: var(--font-head); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 16px; }
+    .section-sub { color: var(--muted); font-size: 1rem; max-width: 560px; margin-bottom: 52px; }
+    .section-divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); max-width: 1100px; margin: 0 auto; }
+
+    /* HERO */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 68px; max-width: 100%; padding-left: 8%; padding-right: 8%; position: relative; overflow: hidden; }
+    #hero::after { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%); top: 10%; right: -100px; border-radius: 50%; pointer-events: none; }
+    .hero-inner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 64px; width: 100%; position: relative; z-index: 1; }
+    .hero-content { max-width: 620px; }
+
+    .hero-visual { position: relative; flex-shrink: 0; width: 400px; height: 420px; }
+    .hero-photo-frame {
+      position: absolute;
+      top: 0; left: 20px;
+      width: 250px; height: 300px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+      background: var(--bg2);
+    }
+    .hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .hero-photo-scanline {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(6,182,212,0.06) 50%, transparent 100%);
+      pointer-events: none;
+    }
+    .hero-photo-tag {
+      position: absolute; bottom: 10px; left: 10px;
+      background: rgba(5,13,26,0.82);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 9px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--green);
+      display: flex; align-items: center; gap: 5px;
+      backdrop-filter: blur(4px);
+    }
+    .dot2 { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 1.5s infinite; flex-shrink: 0; }
+
+    .terminal-panel {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 260px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 2;
+    }
+    .terminal-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--slate);
+      border-bottom: 1px solid var(--border);
+    }
+    .terminal-dot { width: 9px; height: 9px; border-radius: 50%; }
+    .terminal-dot.red { background: #ef4444; }
+    .terminal-dot.yellow { background: #eab308; }
+    .terminal-dot.green { background: #22c55e; }
+    .terminal-titlebar-label { margin-left: 6px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--muted); }
+    .terminal-body { padding: 14px 16px; font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.75; }
+    .term-prompt { color: var(--green); }
+    .term-cmd { color: var(--text); }
+    .term-output { color: var(--muted); }
+    .term-cursor { display: inline-block; width: 6px; height: 12px; background: var(--blue-lt); margin-left: 2px; animation: blink 1s infinite steps(1); vertical-align: middle; }
+
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(37,99,235,0.12); border: 1px solid rgba(37,99,235,0.3); color: var(--blue-lt); padding: 6px 16px; border-radius: 100px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 28px; animation: fadeUp 0.6s ease both; font-family: var(--font-mono); }
+    .hero-badge .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .hero-title { font-family: var(--font-head); font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 800; line-height: 1.08; color: #fff; margin-bottom: 20px; animation: fadeUp 0.6s 0.1s ease both; }
+    .hero-title .highlight { background: linear-gradient(135deg, var(--blue-lt), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 520px; margin-bottom: 36px; animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; border-radius: 10px; font-size: 0.92rem; font-weight: 600; cursor: pointer; transition: all 0.22s ease; text-decoration: none; border: none; }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover { background: var(--blue-lt); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.4); color: #fff; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--blue-lt); color: #fff; transform: translateY(-2px); }
+    .btn-preview { background: rgba(6,182,212,0.12); color: var(--cyan); border: 1px solid rgba(6,182,212,0.35); }
+    .btn-preview:hover { background: rgba(6,182,212,0.22); border-color: var(--cyan); color: #fff; transform: translateY(-2px); }
+
+    .status-strip {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin-top: 52px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 560px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .status-strip-item { flex: 1; padding: 14px 18px; border-right: 1px solid var(--border); }
+    .status-strip-item:last-child { border-right: none; }
+    .status-strip-label { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+    .status-strip-label .sdot { width: 6px; height: 6px; border-radius: 50%; }
+    .status-strip-item.practicing .status-strip-label { color: var(--green); }
+    .status-strip-item.practicing .sdot { background: var(--green); }
+    .status-strip-item.learning .status-strip-label { color: var(--amber); }
+    .status-strip-item.learning .sdot { background: var(--amber); }
+    .status-strip-item.next .status-strip-label { color: var(--muted); }
+    .status-strip-item.next .sdot { background: var(--muted); }
+    .status-strip-value { font-size: 0.86rem; color: var(--text); font-weight: 500; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ABOUT */
+    #about { padding-top: 120px; }
+    .about-text p { color: var(--muted); margin-bottom: 16px; font-size: 0.98rem; max-width: 720px; }
+    .about-text p strong { color: var(--text); }
+    .about-flow {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin: 28px 0; font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted);
+    }
+    .about-flow span.step { color: var(--text); background: var(--bg2); border: 1px solid var(--border); padding: 6px 14px; border-radius: 8px; }
+    .about-flow i { color: var(--blue-lt); font-size: 0.75rem; }
+
+    /* DEVOPS STACK */
+    .status-group { margin-bottom: 26px; }
+    .status-group-label { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 12px; }
+    .status-group-label.practicing { color: var(--green); }
+    .status-group-label.learning { color: var(--amber); }
+    .status-group-label.next { color: var(--muted); }
+    .status-group-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .status-group-label.practicing .status-group-dot { background: var(--green); }
+    .status-group-label.learning .status-group-dot { background: var(--amber); }
+    .status-group-label.next .status-group-dot { background: var(--muted); }
+    .status-items { display: flex; flex-wrap: wrap; gap: 8px; }
+    .status-item { display: flex; align-items: center; gap: 7px; background: var(--bg2); border: 1px solid var(--border); padding: 7px 14px; border-radius: 8px; font-size: 0.86rem; color: var(--text); font-family: var(--font-mono); }
+    .status-item i { font-size: 0.85rem; color: var(--blue-lt); width: 14px; text-align: center; }
+    .status-item .note { color: var(--muted); font-size: 0.76rem; }
+
+    .stack-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
+
+    .path-panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; backdrop-filter: blur(8px); }
+    .path-panel-title { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    .path-list { display: flex; flex-direction: column; gap: 4px; }
+    .path-item { display: flex; align-items: center; gap: 12px; padding: 8px 4px; border-radius: 6px; }
+    .path-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); width: 20px; flex-shrink: 0; }
+    .path-name { font-size: 0.86rem; color: var(--text); flex: 1; }
+    .path-mark { font-family: var(--font-mono); font-size: 0.85rem; width: 18px; text-align: center; flex-shrink: 0; }
+    .path-item.done .path-mark { color: var(--green); }
+    .path-item.done .path-name { color: #fff; font-weight: 600; }
+    .path-item.active .path-mark { color: var(--amber); }
+    .path-item.active .path-name { color: #fff; font-weight: 600; }
+    .path-item.pending .path-mark { color: var(--border); }
+    .path-item.pending .path-name { color: var(--muted); }
+
+    /* PROJECTS */
+    #projects { padding-top: 120px; }
+    .projects-subheading { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: #fff; margin: 44px 0 20px; display: flex; align-items: center; gap: 10px; }
+    .projects-subheading:first-of-type { margin-top: 0; }
+    .projects-subheading i { color: var(--blue-lt); font-size: 1rem; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+    .project-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; backdrop-filter: blur(8px); display: flex; flex-direction: column; }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(37,99,235,0.15); border-color: rgba(59,130,246,0.4); }
+    .pc-img { width: 100%; height: 160px; object-fit: cover; object-position: center top; border-bottom: 1px solid var(--border); display: block; flex-shrink: 0; }
+    .pc-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+    .pc-title { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; line-height: 1.35; }
+    .pc-desc { color: var(--muted); font-size: 0.85rem; margin-bottom: 8px; }
+    .pc-impact { font-size: 0.82rem; color: var(--text); margin-bottom: 16px; padding: 8px 12px; background: rgba(37,99,235,0.07); border-left: 2px solid var(--blue-lt); border-radius: 0 4px 4px 0; }
+    .pc-impact strong { color: var(--blue-lt); }
+    .pc-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: auto; flex-wrap: wrap; }
+    .pc-status-badge { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; width: fit-content; }
+    .pc-status-badge.completed { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: var(--green); }
+    .pc-status-badge .dot3 { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+
+    /* CERTIFICATIONS */
+    #certifications { padding-top: 120px; }
+    .edu-card { display: flex; align-items: center; gap: 20px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 40px; backdrop-filter: blur(8px); }
+    .edu-logo { width: 52px; height: 52px; object-fit: contain; border-radius: 10px; background: #fff; padding: 4px; flex-shrink: 0; }
+    .edu-info h3 { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .edu-info p { font-size: 0.85rem; color: var(--muted); }
+    .edu-info .grad { color: var(--blue-lt); font-size: 0.8rem; margin-top: 4px; }
+    .cert-subheading { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 18px; }
+    .cert-placeholder { background: var(--card); border: 1px dashed var(--border); border-radius: var(--radius); padding: 22px; display: flex; gap: 14px; align-items: center; color: var(--muted); font-size: 0.85rem; }
+    .cert-placeholder i { font-size: 1.3rem; color: var(--blue); opacity: 0.5; flex-shrink: 0; }
+
+    /* CONTACT */
+    #contact { padding-top: 120px; padding-bottom: 120px; }
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: start; }
+    .contact-left p { color: var(--muted); margin-bottom: 28px; font-size: 0.98rem; line-height: 1.8; }
+    .contact-left p strong { color: var(--text); }
+    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+    .contact-link { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); transition: border-color 0.2s, transform 0.2s; color: var(--text); }
+    .contact-link:hover { border-color: var(--blue-lt); transform: translateX(4px); color: #fff; }
+    .contact-link i { font-size: 1.05rem; color: var(--blue-lt); width: 20px; text-align: center; flex-shrink: 0; }
+    .contact-link-text { display: flex; flex-direction: column; gap: 1px; }
+    .contact-link-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+    .contact-link-value { font-size: 0.88rem; color: var(--text); }
+    .snapshot-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 32px; backdrop-filter: blur(8px); position: relative; overflow: hidden; }
+    .snapshot-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+    .snapshot-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .snapshot-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--cyan)); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 800; font-size: 1rem; color: #fff; flex-shrink: 0; }
+    .snapshot-name { font-family: var(--font-head); font-size: 1.05rem; font-weight: 700; color: #fff; line-height: 1.2; }
+    .snapshot-role { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+    .snapshot-rows { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+    .snapshot-row { display: flex; align-items: flex-start; gap: 12px; font-size: 0.88rem; }
+    .snapshot-row-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(37,99,235,0.12); border: 1px solid rgba(37,99,235,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--blue-lt); font-size: 0.82rem; }
+    .snapshot-row-content { display: flex; flex-direction: column; gap: 2px; padding-top: 2px; }
+    .snapshot-row-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+    .snapshot-row-value { color: var(--text); font-size: 0.88rem; line-height: 1.4; }
+    .status-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); color: var(--green); font-size: 0.75rem; font-weight: 600; padding: 4px 12px; border-radius: 100px; margin-bottom: 20px; font-family: var(--font-mono); }
+    .status-pill .dot-green { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 1.5s infinite; flex-shrink: 0; }
+    .snapshot-building { background: rgba(6,182,212,0.07); border: 1px solid rgba(6,182,212,0.18); border-radius: 10px; padding: 14px 16px; margin-bottom: 24px; }
+    .snapshot-building-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; font-family: var(--font-mono); }
+    .snapshot-building-value { font-size: 0.86rem; color: var(--text); line-height: 1.5; }
+    .snapshot-ctas { display: flex; flex-direction: column; gap: 10px; }
+    .snapshot-ctas .btn { justify-content: center; width: 100%; }
+
+    /* FOOTER */
+    footer { background: var(--bg2); border-top: 1px solid var(--border); text-align: center; padding: 28px 5%; position: relative; z-index: 1; }
+    footer p { font-size: 0.82rem; color: var(--muted); }
+    footer span { color: var(--blue-lt); }
+
+    /* PROJECT PREVIEW MODAL */
+    .preview-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.93); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
+    .preview-overlay.open { display: flex; }
+    .preview-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 24px; max-width: 920px; width: 100%; animation: modalIn 0.25s ease; display: flex; flex-direction: column; max-height: 92vh; }
+    @keyframes modalIn { from { transform: scale(0.93); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .preview-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-shrink: 0; }
+    .preview-project-name { font-family: var(--font-head); font-size: 1.05rem; font-weight: 700; color: #fff; }
+    .preview-counter { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+    .preview-close { background: rgba(255,255,255,0.07); border: 1px solid var(--border); color: var(--muted); font-size: 1rem; cursor: pointer; transition: all 0.2s; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .preview-close:hover { color: #fff; background: rgba(255,255,255,0.13); }
+    .preview-carousel { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 12px; background: rgba(0,0,0,0.35); min-height: 300px; }
+    .preview-img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; display: block; transition: opacity 0.22s ease, transform 0.22s ease; }
+    .preview-img.fade-out { opacity: 0; transform: scale(0.97); }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(10,22,40,0.88); border: 1px solid var(--border); color: #fff; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: all 0.2s; z-index: 2; backdrop-filter: blur(6px); }
+    .carousel-btn:hover { background: var(--blue); border-color: var(--blue); transform: translateY(-50%) scale(1.08); }
+    .carousel-btn.prev { left: 12px; }
+    .carousel-btn.next { right: 12px; }
+    .carousel-btn:disabled { opacity: 0.25; cursor: not-allowed; pointer-events: none; }
+    .preview-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; flex-shrink: 0; }
+    .preview-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
+    .preview-dot.active { background: var(--blue-lt); border-color: var(--blue-lt); transform: scale(1.3); }
+    .preview-caption { text-align: center; margin-top: 10px; font-size: 0.82rem; color: var(--muted); flex-shrink: 0; min-height: 1.2em; }
+
+    /* SCROLL REVEAL */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-hamburger { display: flex; }
+      .nav-links { display: none; flex-direction: column; position: fixed; top: 68px; left: 0; right: 0; background: rgba(5,13,26,0.98); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 20px 5% 28px; gap: 0; z-index: 99; }
+      .nav-links.open { display: flex; }
+      .nav-links li { border-bottom: 1px solid var(--border); }
+      .nav-links li:last-child { border-bottom: none; margin-top: 12px; }
+      .nav-links a { display: block; padding: 14px 0; font-size: 1rem; color: var(--text); }
+      .nav-cta { display: block; text-align: center; padding: 12px 0 !important; border-radius: 8px; }
+      #hero { padding-left: 5%; padding-right: 5%; padding-top: 88px; padding-bottom: 60px; align-items: flex-start; min-height: unset; }
+      .hero-inner { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+      .hero-visual { order: -1; width: 100%; max-width: 300px; height: 340px; margin: 0 auto 16px; }
+      .hero-photo-frame { width: 220px; height: 260px; left: 50%; transform: translateX(-50%); }
+      .terminal-panel { width: 210px; right: 0; }
+      .terminal-body { font-size: 0.66rem; padding: 12px; }
+      .hero-badge { font-size: 0.75rem; margin-bottom: 16px; }
+      .hero-title { font-size: clamp(1.9rem, 9vw, 2.8rem); margin-bottom: 14px; }
+      .hero-sub { font-size: 0.9rem; margin: 0 auto 24px; }
+      .hero-actions { justify-content: center; gap: 10px; }
+      .hero-actions .btn { padding: 10px 18px; font-size: 0.82rem; }
+      .status-strip { flex-direction: column; margin: 32px auto 0; max-width: 340px; }
+      .status-strip-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .status-strip-item:last-child { border-bottom: none; }
+      .stack-grid { grid-template-columns: 1fr; gap: 32px; }
+      .about-flow { justify-content: center; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .edu-card { flex-direction: column; text-align: center; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 36px; }
+      .contact-link-value { font-size: 0.78rem; word-break: break-all; }
+      .snapshot-ctas .btn { padding: 11px 20px; font-size: 0.85rem; }
+      section { padding: 72px 5%; }
+      #about, #projects, #certifications, #contact { padding-top: 72px; }
+      .preview-box { padding: 16px; border-radius: 16px; }
+      .preview-carousel { min-height: 220px; }
+      .carousel-btn { width: 36px; height: 36px; font-size: 0.85rem; }
+      .carousel-btn.prev { left: 6px; }
+      .carousel-btn.next { right: 6px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-logo"><span>VidbDevOps</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#stack" class="nav-link">DevOps Stack</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#certifications" class="nav-link">Certifications</a></li>
+      <li><a href="Website Content/Vidit_Bhatnagar_DevOps_Resume.pdf" target="_blank" class="nav-link" style="color:var(--text);">Resume</a></li>
+      <li><a href="#contact" class="nav-cta nav-link">Contact</a></li>
+    </ul>
+    <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            Open to internships &amp; entry-level roles
+          </div>
+          <h1 class="hero-title">
+            Vidit Bhatnagar<br>
+            <span class="highlight">Cloud &amp; DevOps Learner</span>
+          </h1>
+          <p class="hero-sub">
+            Final-year BCA student building hands-on skills in Linux, Cloud Engineering and DevOps — one practical lab at a time.
+          </p>
+          <div class="hero-actions">
+            <a href="#stack" class="btn btn-primary"><i class="fas fa-terminal"></i> View DevOps Stack</a>
+            <a href="https://www.linkedin.com/in/vidbh/" target="_blank" class="btn btn-outline"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="https://github.com/Vidit-Bhatnagar" target="_blank" class="btn btn-outline"><i class="fab fa-github"></i> GitHub</a>
+            <a href="Website Content/Vidit_Bhatnagar_DevOps_Resume.pdf" download class="btn btn-outline" style="border-color:rgba(255,255,255,0.25); color:#fff;"><i class="fas fa-download"></i>Download My Resume</a>
+          </div>
+
+          <div class="status-strip">
+            <div class="status-strip-item practicing">
+              <div class="status-strip-label"><span class="sdot"></span>PRACTICING</div>
+              <div class="status-strip-value">Linux / Ubuntu</div>
+            </div>
+            <div class="status-strip-item learning">
+              <div class="status-strip-label"><span class="sdot"></span>LEARNING</div>
+              <div class="status-strip-value">Git &amp; GitHub</div>
+            </div>
+            <div class="status-strip-item next">
+              <div class="status-strip-label"><span class="sdot"></span>NEXT</div>
+              <div class="status-strip-value">Networking → Cloud/AWS</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-photo-frame">
+            <img src="Website Content/My Pic.jpg" alt="Vidit Bhatnagar" />
+            <div class="hero-photo-scanline"></div>
+            <div class="hero-photo-tag"><span class="dot2"></span>Open to Work</div>
+          </div>
+          <div class="terminal-panel">
+            <div class="terminal-titlebar">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-titlebar-label">vidit@devops: ~</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="term-prompt">vidit@devops</span><span class="term-cmd">:~$ whoami</span></div>
+              <div class="term-output">Vidit Bhatnagar</div>
+              <div class="term-output">Cloud &amp; DevOps Learner</div>
+              <div><span class="term-prompt">vidit@devops</span><span class="term-cmd">:~$ </span><span class="term-cursor"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="reveal">
+        <div class="section-label">Who I Am</div>
+        <h2 class="section-title">Building My Path in Cloud &amp; DevOps</h2>
+      </div>
+      <div class="about-text reveal">
+        <p>Hi, I'm <strong>Vidit Bhatnagar</strong> — a final-year BCA student at RKGIT, Ghaziabad, Uttar Pradesh.</p>
+        <p>I'm focused on building a career in <strong>Cloud Engineering and DevOps</strong>, with a hands-on approach to learning Linux, system administration, Git, networking, cloud platforms and automation.</p>
+        <p>My current focus is strengthening my Linux and Git fundamentals through practical command-line work and real projects. I'm gradually expanding toward networking, AWS, Docker, CI/CD, Infrastructure as Code and Kubernetes.</p>
+        <p>I believe in learning by building, troubleshooting and documenting real systems rather than only following tutorials.</p>
+
+        <div class="about-flow">
+          <span class="step">Linux</span>
+          <i class="fas fa-arrow-right"></i>
+          <span class="step">Git &amp; GitHub</span>
+          <i class="fas fa-arrow-right"></i>
+          <span class="step">Networking</span>
+          <i class="fas fa-arrow-right"></i>
+          <span class="step">Cloud &amp; DevOps</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- DEVOPS STACK -->
+    <section id="stack">
+      <div class="reveal">
+        <div class="section-label">Skills</div>
+        <h2 class="section-title">DevOps Stack</h2>
+        <p class="section-sub">Where I actually stand right now, and the path I'm following to get further.</p>
+      </div>
+      <div class="stack-grid reveal">
+        <div>
+          <div class="status-group">
+            <div class="status-group-label practicing"><span class="status-group-dot"></span>Currently Practicing</div>
+            <div class="status-items">
+              <span class="status-item"><i class="fab fa-linux"></i>Linux / Ubuntu</span>
+            </div>
+          </div>
+          <div class="status-group">
+            <div class="status-group-label learning"><span class="status-group-dot"></span>Currently Learning</div>
+            <div class="status-items">
+              <span class="status-item"><i class="fab fa-git-alt"></i>Git</span>
+              <span class="status-item"><i class="fab fa-github"></i>GitHub</span>
+            </div>
+          </div>
+          <div class="status-group" style="margin-bottom: 0;">
+            <div class="status-group-label next"><span class="status-group-dot"></span>Next Focus</div>
+            <div class="status-items">
+              <span class="status-item"><i class="fas fa-network-wired"></i>Networking Fundamentals</span>
+              <span class="status-item"><i class="fab fa-aws"></i>Cloud Fundamentals / AWS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="path-panel">
+          <div class="path-panel-title">Longer-Term Learning Path</div>
+          <div class="path-list">
+            <div class="path-item done"><span class="path-num">01</span><span class="path-name">Linux</span><span class="path-mark">✓</span></div>
+            <div class="path-item active"><span class="path-num">02</span><span class="path-name">Git &amp; GitHub</span><span class="path-mark">◐</span></div>
+            <div class="path-item pending"><span class="path-num">03</span><span class="path-name">Networking</span><span class="path-mark">○</span></div>
+            <div class="path-item pending"><span class="path-num">04</span><span class="path-name">AWS</span><span class="path-mark">○</span></div>
+            <div class="path-item pending"><span class="path-num">05</span><span class="path-name">Docker</span><span class="path-mark">○</span></div>
+            <div class="path-item pending"><span class="path-num">06</span><span class="path-name">CI/CD</span><span class="path-mark">○</span></div>
+            <div class="path-item pending"><span class="path-num">07</span><span class="path-name">IaC (Terraform)</span><span class="path-mark">○</span></div>
+            <div class="path-item pending"><span class="path-num">08</span><span class="path-name">Kubernetes</span><span class="path-mark">○</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="reveal">
+        <div class="section-label">My Work</div>
+        <h2 class="section-title">DevOps Projects &amp; Labs</h2>
+        <p class="section-sub">A completed Linux automation project, with more on the way as my DevOps skills grow.</p>
+      </div>
+
+      <div class="projects-subheading reveal"><i class="fas fa-check-circle"></i> Completed</div>
+      <div class="projects-grid">
+        <div class="project-card reveal">
+          <img class="pc-img" src="Website Content/THUMBNAIL.png" alt="Linux Server Health Monitor" />
+          <div class="pc-body">
+            <div class="pc-status-badge completed"><span class="dot3"></span>COMPLETED · ON GITHUB</div>
+            <div class="pc-title">Linux Server Health Monitor</div>
+            <p class="pc-desc">A Bash-based Linux server monitoring tool that checks CPU, RAM, and disk usage, validates SSH and Cron service status, calculates overall system health, and generates timestamped daily reports with alert logging for WARNING/CRITICAL conditions.</p>
+            <div class="pc-impact"><strong>Automation:</strong> Runs automatically via Cron every 5 minutes, with execution verified through journalctl and exit codes (0 = OK, 1 = WARNING, 2 = CRITICAL) mapped to system health state.</div>
+            <div class="pc-footer">
+              <button class="btn btn-preview" style="padding: 8px 14px; font-size:0.8rem;" onclick="openPreview('healthmonitor')">
+                <i class="fas fa-images"></i> Preview
+              </button>
+              <a href="https://github.com/Vidit-Bhatnagar/linux-server-health-monitor" target="_blank" class="btn btn-outline" style="padding: 8px 18px; font-size:0.82rem;">
+                <i class="fab fa-github"></i> View on GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- CERTIFICATIONS -->
+    <section id="certifications">
+      <div class="reveal">
+        <div class="section-label">Credentials</div>
+        <h2 class="section-title">Education &amp; Certifications</h2>
+        <p class="section-sub">Academic background, with Cloud &amp; DevOps certifications to follow as I earn them.</p>
+      </div>
+
+      <div class="edu-card reveal">
+        <img class="edu-logo" src="Website Content/RKGIT_IMAGE.jpeg" alt="RKGIT" />
+        <div class="edu-info">
+          <h3>Bachelor of Computer Applications (BCA) — Final Year</h3>
+          <p>Raj Kumar Goel Institute of Technology, Ghaziabad, Uttar Pradesh</p>
+          <p class="grad">📅 Expected Graduation: 2027</p>
+        </div>
+      </div>
+
+      <div class="cert-subheading reveal">Cloud &amp; DevOps</div>
+      <div class="cert-placeholder reveal">
+        <i class="fas fa-certificate"></i>
+        <span>No Cloud/DevOps certifications yet — this space will fill in as I complete relevant courses.</span>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="reveal">
+        <div class="section-label">Get In Touch</div>
+        <h2 class="section-title">Let's Connect</h2>
+      </div>
+
+      <div class="contact-wrap">
+
+        <div class="contact-left reveal">
+          <p>
+            I'm a final-year BCA student based in <strong>Ghaziabad, Uttar Pradesh</strong>, currently building hands-on skills in <strong>Cloud Engineering and DevOps</strong>. I'm actively looking for opportunities where I can learn, contribute and grow in a real-world technical environment.
+          </p>
+
+          <div class="contact-links">
+            <a href="mailto:viditbhatnagar53@gmail.com" class="contact-link">
+              <i class="fas fa-envelope"></i>
+              <div class="contact-link-text">
+                <span class="contact-link-label">Email</span>
+                <span class="contact-link-value">viditbhatnagar53@gmail.com</span>
+              </div>
+            </a>
+            <a href="https://www.linkedin.com/in/vidbh/" target="_blank" class="contact-link">
+              <i class="fab fa-linkedin"></i>
+              <div class="contact-link-text">
+                <span class="contact-link-label">LinkedIn</span>
+                <span class="contact-link-value">Vidit Bhatnagar</span>
+              </div>
+            </a>
+            <a href="https://github.com/Vidit-Bhatnagar" target="_blank" class="contact-link">
+              <i class="fab fa-github"></i>
+              <div class="contact-link-text">
+                <span class="contact-link-label">GitHub</span>
+                <span class="contact-link-value">Vidit-Bhatnagar</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-right reveal">
+          <div class="snapshot-card">
+
+            <div class="snapshot-header">
+              <div class="snapshot-avatar">VB</div>
+              <div>
+                <div class="snapshot-name">Vidit Bhatnagar</div>
+                <div class="snapshot-role">Cloud &amp; DevOps Learner</div>
+              </div>
+            </div>
+
+            <div class="status-pill">
+              <span class="dot-green"></span>
+              Available immediately
+            </div>
+
+            <div class="snapshot-rows">
+              <div class="snapshot-row">
+                <div class="snapshot-row-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="snapshot-row-content">
+                  <span class="snapshot-row-label">Education</span>
+                  <span class="snapshot-row-value">BCA Final Year · RKGIT, Ghaziabad</span>
+                </div>
+              </div>
+              <div class="snapshot-row">
+                <div class="snapshot-row-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="snapshot-row-content">
+                  <span class="snapshot-row-label">Location</span>
+                  <span class="snapshot-row-value">Ghaziabad, Uttar Pradesh</span>
+                </div>
+              </div>
+              <div class="snapshot-row">
+                <div class="snapshot-row-icon"><i class="fas fa-terminal"></i></div>
+                <div class="snapshot-row-content">
+                  <span class="snapshot-row-label">Career Focus</span>
+                  <span class="snapshot-row-value">Cloud &amp; DevOps</span>
+                </div>
+              </div>
+              <div class="snapshot-row">
+                <div class="snapshot-row-icon"><i class="fas fa-briefcase"></i></div>
+                <div class="snapshot-row-content">
+                  <span class="snapshot-row-label">Seeking</span>
+                  <span class="snapshot-row-value">Cloud / DevOps Internships &amp; Entry-Level Opportunities</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="snapshot-ctas">
+              <a href="Website Content/Vidit_Bhatnagar_DevOps_Resume.pdf" download class="btn btn-primary">
+                <i class="fas fa-download"></i> Download Resume
+              </a>
+              <a href="mailto:viditbhatnagar53@gmail.com" class="btn btn-outline">
+                <i class="fas fa-paper-plane"></i> Send an Email
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><span>Vidit Bhatnagar</span> · Cloud &amp; DevOps Learner · Ghaziabad, Uttar Pradesh</p>
+  </footer>
+
+  <!-- PROJECT PREVIEW MODAL -->
+  <div class="preview-overlay" id="previewModal" onclick="handlePreviewOverlay(event)">
+    <div class="preview-box">
+      <div class="preview-header">
+        <div>
+          <div class="preview-project-name" id="previewTitle"></div>
+          <div class="preview-counter" id="previewCounter"></div>
+        </div>
+        <button class="preview-close" onclick="closePreview()">✕</button>
+      </div>
+      <div class="preview-carousel">
+        <button class="carousel-btn prev" id="prevBtn" onclick="changeSlide(-1)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <img class="preview-img" id="previewImg" src="" alt="Project screenshot" />
+        <button class="carousel-btn next" id="nextBtn" onclick="changeSlide(1)">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="preview-dots" id="previewDots"></div>
+      <div class="preview-caption" id="previewCaption"></div>
+    </div>
+  </div>
+
+  <script>
+    /* Active nav */
+    const sections  = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      navLinks.forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+      });
+    });
+
+    /* Scroll reveal */
+    const reveals  = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => observer.observe(r));
+
+    /* Hamburger */
+    const navToggle  = document.getElementById('navToggle');
+    const navLinksEl = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('open');
+      navLinksEl.classList.toggle('open');
+    });
+    navLinksEl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navToggle.classList.remove('open');
+      navLinksEl.classList.remove('open');
+    }));
+
+    /* PROJECT PREVIEW CAROUSEL */
+    const projectData = {
+      healthmonitor: {
+        title: 'Linux Server Health Monitor',
+        images: [
+          { src: 'Website Content/Generated Log.png',        caption: 'Generated Health Log' },
+          { src: 'Website Content/Health Monitor Report.png', caption: 'Daily Health Report' },
+          { src: 'Website Content/Cron Execution Proof.png',  caption: 'Cron Execution Verified via journalctl' },
+        ]
+      }
+    };
+
+    let currentProject = null;
+    let currentIndex   = 0;
+
+    function openPreview(key) {
+      currentProject = projectData[key];
+      currentIndex   = 0;
+      document.getElementById('previewTitle').textContent = currentProject.title;
+      buildDots();
+      renderSlide();
+      document.getElementById('previewModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePreview() {
+      document.getElementById('previewModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function handlePreviewOverlay(e) {
+      if (e.target === document.getElementById('previewModal')) closePreview();
+    }
+    function buildDots() {
+      const dotsEl = document.getElementById('previewDots');
+      dotsEl.innerHTML = '';
+      currentProject.images.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'preview-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => goToSlide(i));
+        dotsEl.appendChild(d);
+      });
+    }
+    function renderSlide() {
+      const img    = document.getElementById('previewImg');
+      const total  = currentProject.images.length;
+      const slide  = currentProject.images[currentIndex];
+      document.getElementById('previewCounter').textContent = (currentIndex + 1) + ' / ' + total;
+      document.getElementById('previewCaption').textContent = slide.caption || '';
+      document.querySelectorAll('.preview-dot').forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+      document.getElementById('prevBtn').disabled = currentIndex === 0;
+      document.getElementById('nextBtn').disabled = currentIndex === total - 1;
+      img.classList.add('fade-out');
+      setTimeout(() => {
+        img.src = slide.src;
+        img.alt = slide.caption || 'Project screenshot';
+        img.classList.remove('fade-out');
+      }, 180);
+    }
+    function changeSlide(dir) {
+      const next = currentIndex + dir;
+      if (next < 0 || next >= currentProject.images.length) return;
+      currentIndex = next;
+      renderSlide();
+    }
+    function goToSlide(i) { currentIndex = i; renderSlide(); }
+
+    /* Keyboard nav */
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('previewModal').classList.contains('open')) {
+        if (e.key === 'ArrowLeft')  changeSlide(-1);
+        if (e.key === 'ArrowRight') changeSlide(1);
+        if (e.key === 'Escape')     closePreview();
+        return;
+      }
+    });
+  </script>
+
+</body>
+</html>
